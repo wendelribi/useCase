@@ -1,31 +1,38 @@
 package br.com.wendel.funcionalidades;
+import java.util.ArrayList;
 
-public class CasoDeUso extends Caracteristica{
-	protected String Descricao;
-	protected String setup;
-	
-	public CasoDeUso(String id, String nome, String descricao){
-		super(id, nome);
-		this.Descricao = descricao;
+public class CasoDeUso{
+	private String id;
+	private String nome;
+	private String descricao;
+	private ArrayList<Fluxo> listaDeFluxo = new ArrayList<Fluxo>();
+		
+	public String getId() {
+		return id;
 	}
-	
-	public CasoDeUso(String id, String nome, String descricao, String setup) {
-		super(id, nome);
-		this.Descricao = descricao;
-		this.setup = setup;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public String getDescription() {
-		return Descricao;
+
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getDescricao() {
+		return descricao;
 	}
 	public void setDescricao(String descricao) {
-		this.Descricao = descricao;
+		this.descricao = descricao;
 	}
-	public String getSetup() {
-		return setup;
+	public ArrayList<Fluxo> getFluxo() {
+		return listaDeFluxo;
 	}
-	public void setSetup(String setup) {
-		this.setup = setup;
+	public void incluirFluxo(Fluxo fluxo) {
+		this.listaDeFluxo.add(fluxo);
 	}
-
 	
+
 }

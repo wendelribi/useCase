@@ -1,32 +1,35 @@
 package br.com.wendel.funcionalidades;
 
 public class Passo {
-	protected String id;
-	protected String action;
-	protected String response;
-	public Passo(String id, String action, String response) {
-		super();
-		this.id = id;
-		this.action = action;
-		this.response = response;
-	}
+	private String id;
+	private String acao;
+	private String condicao;
+	private String resposta;
+
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getAction() {
-		return action;
+	public String getAcao() {
+		return acao;
 	}
-	public void setAction(String action) {
-		this.action = action;
+	public void setAcao(String acao) {
+		this.acao = acao;
 	}
-	public String getResponse() {
-		return response;
+	public String getCondicao() {
+		return condicao;
 	}
-	public void setResponse(String response) {
-		this.response = response;
+	public void setCondicao(String condicao) {
+		this.condicao = condicao;
 	}
+	public String getResposta() {
+		return resposta;
+	}
+	public void setResposta(String resposta) {
+		this.resposta = resposta;
+	}
+
 	
 }
