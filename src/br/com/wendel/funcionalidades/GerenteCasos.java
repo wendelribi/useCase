@@ -1,31 +1,29 @@
 package br.com.wendel.funcionalidades;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Menu {
+public class GerenteCasos {
 	Scanner sc;
+	protected ArrayList<CasoDeUso> listaDeCasos = new ArrayList<CasoDeUso>();
+	Dialogo dialogo = new Dialogo();
 	
 	void menuInicial(){
-		System.out.println("\n==========================================");
-		System.out.println("Sistema de Gerenciamento de casos de uso");
-		System.out.println("Informe um numero");
-		System.out.println("[1] Adicionar um novo Caso de Uso");
-		System.out.println("[2] Pesquisar um Caso de Uso");
-		System.out.println("[3] sair");
+		dialogo.principal();
 		
 		sc = new Scanner(System.in);
 		int op = sc.nextInt();
-		Menu menu = new Menu();
-		
-		
+
 		switch (op) {
 			case 1:
-				menu.incluirCasoDeUso();
+				incluirCasoDeUso();
 				break;
-			//TODO: Implementar metodo pesquisarCasoDeUso()
-			//case 2:
-				//menu.pesquisarCasoDeUso();
-				//break;
+
+			case 2:
+				System.out.println("Digite um nome: ");
+				String nome = sc.next();
+				pesquisarCasoDeUso(nome);
+				break;
 			
 			case 3:
 				System.exit(0);
@@ -38,15 +36,13 @@ public class Menu {
 	}
 	
 	
-	Passo incluirPasso(){
-		System.out.println("\n==========");
-		System.out.println("Novo Passo");
-		System.out.println("==========");
+	public Passo incluirPasso(){
+		dialogo.passo();
 		
 		sc = new Scanner(System.in);
 		Passo passo = new Passo();
 
-		System.out.println("Infome um Id: ");
+		dialogo.id();
 		String id = sc.next();
 		
 		System.out.println("Infome uma ação: ");
@@ -66,20 +62,17 @@ public class Menu {
 		return passo;
 	}
 	
-	Fluxo incluirFluxo(){
+	public Fluxo criarFluxo(){
 		sc = new Scanner(System.in);
 		Fluxo fluxo = new Fluxo();
 		
-		System.out.println("\n==========");
-		System.out.println("Novo Fluxo");
-		System.out.println("==========");
-		System.out.println("Infome um Id: ");
+		dialogo.id();
 		String id = sc.next();
 		
-		System.out.println("Infome uma Nome: ");
+		dialogo.nome();
 		String nome = sc.next();
 		
-		System.out.println("Infome uma Descrição: ");
+		dialogo.descricao();
 		String descricao = sc.next();
 		
 		System.out.println("Infome uma toStep: ");
@@ -90,10 +83,7 @@ public class Menu {
 
 		Boolean a = true;
 		while (a){
-			System.out.println("Gostaria de Adicionar um novo Passo?");
-			System.out.println("[1] SIM");
-			System.out.println("[2] NAO");
-			
+			dialogo.novoPasso();
 			int op = sc.nextInt();
 			
 			if(op == 1){
@@ -115,34 +105,55 @@ public class Menu {
 		return fluxo;
 	}
 	
+	public void pesquisarCasoDeUso(String nome){
+		
+		for(CasoDeUso cass : listaDeCasos){
+			if (nome.equals(cass.getId())){
+				System.out.println("O usuario Existe");
+				System.out.println(cass.getId());
+				System.out.println(cass.getDescricao());
+				System.out.println(cass.getNome());
+				System.out.println(cass.getFluxo());
+				ArrayList<Fluxo> fl = cass.getFluxo();
+				for (Fluxo fluxo : fl){
+					fluxo.getId();
+					fluxo.getNome();
+					fluxo.getDescricao();
+				}
+				System.out.println();
+			}
+			
+			
+
+		}
+		menuInicial();
+	}
 	
-	CasoDeUso incluirCasoDeUso(){
-		System.out.println("\n====================");
-		System.out.println("Novo Caso De uso");
-		System.out.println("====================");
+	public void incluirCasoDeUso(){
+		
+		dialogo.novoCaso();
+		
 		sc = new Scanner(System.in);
 		CasoDeUso caso = new CasoDeUso();
 
-		System.out.println("Infome um Id: ");
+		dialogo.id();
 		String id = sc.next();
 		
-		System.out.println("Infome uma Nome: ");
+		dialogo.nome();
 		String nome = sc.next();
 		
-		System.out.println("Infome uma Descrição: ");
+		dialogo.descricao();
 		String descricao = sc.next();
 		
 		
 		Boolean a = true;
 		
 		while (a){
-			System.out.println("Gostaria de incluir um novo Fluxo?");
-			System.out.println("[1] SIM");
-			System.out.println("[2] NAO");
+			dialogo.novoFluxo();
 			int op = sc.nextInt();
 			if (op == 1){
-				Fluxo fl = incluirFluxo();
-				caso.incluirFluxo(fl);
+				Fluxo fl = criarFluxo();
+				caso.setFluxo(fl);
 			}
 			else{
 				a = false;
@@ -151,8 +162,9 @@ public class Menu {
 		caso.setId(id);
 		caso.setNome(nome);
 		caso.setDescricao(descricao);
-
+		listaDeCasos.add(caso);
 		menuInicial();
-		return caso;
+	
 	}
+
 }

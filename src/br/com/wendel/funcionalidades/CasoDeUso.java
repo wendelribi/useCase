@@ -2,10 +2,10 @@ package br.com.wendel.funcionalidades;
 import java.util.ArrayList;
 
 public class CasoDeUso{
-	private String id;
-	private String nome;
-	private String descricao;
-	private ArrayList<Fluxo> listaDeFluxo = new ArrayList<Fluxo>();
+	protected String id;
+	protected String nome;
+	protected String descricao;
+	protected ArrayList<Fluxo> listaDeFluxo = new ArrayList<Fluxo>();
 		
 	public String getId() {
 		return id;
@@ -30,7 +30,7 @@ public class CasoDeUso{
 	public ArrayList<Fluxo> getFluxo() {
 		return listaDeFluxo;
 	}
-	public void incluirFluxo(Fluxo fluxo) {
+	public void setFluxo(Fluxo fluxo) {
 		this.listaDeFluxo.add(fluxo);
 	}
 	
