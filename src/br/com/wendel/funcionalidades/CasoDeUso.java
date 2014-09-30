@@ -7,6 +7,13 @@ public class CasoDeUso{
 	protected String descricao;
 	protected ArrayList<Fluxo> listaDeFluxo = new ArrayList<Fluxo>();
 		
+//	public CasoDeUso() {
+//		this.id = null;
+//		this.nome = null;
+//		this.descricao = null;
+//		this.listaDeFluxo = null;
+//	}
+	
 	public String getId() {
 		return id;
 	}
