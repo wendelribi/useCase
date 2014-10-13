@@ -1,123 +1,202 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.com.wendel.gui;
 
-import java.awt.Event;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javax.swing.JFrame;
+import br.com.wendel.domain.Caracteristica;
+import br.com.wendel.domain.GerenteCasos;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SpringLayout;
-import javax.swing.JButton;
-import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class UseCase extends JFrame implements ActionListener{
+/**
+ *
+ * @author wendel
+ */
+public class UseCase extends javax.swing.JFrame {
 
-	private JPanel contentPane;
-	private JButton btnCriar;
-	private JButton btnCancelar;
-	private JLabel lblNome;
-	private JLabel lblDescrio;
-	private JTextField txtId;
-	private JTextField txtNome;
-	private JTextField txtDescricao;
-	ArrayList<String> listaInf = new ArrayList<String>();
-	
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UseCase frame = new UseCase();
-					frame.setVisible(true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    /**
+     * Creates new form UseCase
+     */
+    public UseCase() {
+        initComponents();
+    }
+    private static UseCase p;
 
-	/**
-	 * Create the frame.
-	 */
-	public UseCase() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		SpringLayout sl_contentPane = new SpringLayout();
-		contentPane.setLayout(sl_contentPane);
-		
-		btnCriar = new JButton("Criar");
-		sl_contentPane.putConstraint(SpringLayout.WEST, btnCriar, 105, SpringLayout.WEST, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnCriar, -10, SpringLayout.SOUTH, contentPane);
-		btnCriar.addActionListener(this);
-		contentPane.add(btnCriar);
-		
-		btnCancelar = new JButton("Cancelar");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, btnCancelar, 0, SpringLayout.NORTH, btnCriar);
-		sl_contentPane.putConstraint(SpringLayout.WEST, btnCancelar, 51, SpringLayout.EAST, btnCriar);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnCancelar, -10, SpringLayout.SOUTH, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.EAST, btnCancelar, -120, SpringLayout.EAST, contentPane);
-		btnCancelar.addActionListener(this);
-		contentPane.add(btnCancelar);
-		
-		JLabel lblId = new JLabel("ID");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, lblId, 60, SpringLayout.NORTH, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.WEST, lblId, 60, SpringLayout.WEST, contentPane);
-		contentPane.add(lblId);
-		
-		lblNome = new JLabel("NOME");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, lblNome, 45, SpringLayout.SOUTH, lblId);
-		sl_contentPane.putConstraint(SpringLayout.WEST, lblNome, 0, SpringLayout.WEST, lblId);
-		contentPane.add(lblNome);
-		
-		lblDescrio = new JLabel("DESCRIÇÃO");
-		sl_contentPane.putConstraint(SpringLayout.WEST, lblDescrio, 0, SpringLayout.WEST, lblId);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, lblDescrio, -35, SpringLayout.NORTH, btnCriar);
-		contentPane.add(lblDescrio);
-		
-		txtId = new JTextField();
-		sl_contentPane.putConstraint(SpringLayout.NORTH, txtId, -2, SpringLayout.NORTH, lblId);
-		sl_contentPane.putConstraint(SpringLayout.WEST, txtId, 0, SpringLayout.WEST, btnCancelar);
-		txtId.setText("id");
-		txtId.addActionListener(this);
-		contentPane.add(txtId);
-		txtId.setColumns(10);
-		
-		txtNome = new JTextField();
-		txtNome.setText("nome");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, txtNome, 0, SpringLayout.NORTH, lblNome);
-		sl_contentPane.putConstraint(SpringLayout.EAST, txtNome, 0, SpringLayout.EAST, txtId);
-		txtId.addActionListener(this);
-		contentPane.add(txtNome);
-		txtNome.setColumns(10);
-		
-		txtDescricao = new JTextField();
-		sl_contentPane.putConstraint(SpringLayout.NORTH, txtDescricao, -2, SpringLayout.NORTH, lblDescrio);
-		sl_contentPane.putConstraint(SpringLayout.WEST, txtDescricao, 0, SpringLayout.WEST, btnCancelar);
-		txtDescricao.setText("descrição");
-		txtDescricao.addActionListener(this);
-		contentPane.add(txtDescricao);
-		txtDescricao.setColumns(10);
-	}
+    public static UseCase getInstance() {
+        if (p == null) {
+            p = new UseCase();
+        }
+        return p;
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==btnCriar){
-			System.out.println("CLICOU EM Okkkk");
-		}
-		else if(e.getSource()==btnCancelar){
-			System.out.println("Cancelou");
-		}
-	}
+    public static JPanel getPainel() {
+        return getInstance().painelPrincipal;
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jRadioButton1 = new javax.swing.JRadioButton();
+        painelPrincipal = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        novo = new javax.swing.JMenuItem();
+        open = new javax.swing.JMenuItem();
+        exit = new javax.swing.JMenuItem();
+
+        jRadioButton1.setText("jRadioButton1");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
+        painelPrincipal.setLayout(painelPrincipalLayout);
+        painelPrincipalLayout.setHorizontalGroup(
+            painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 614, Short.MAX_VALUE)
+        );
+        painelPrincipalLayout.setVerticalGroup(
+            painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 431, Short.MAX_VALUE)
+        );
+
+        jMenu1.setText("Projeto");
+
+        novo.setText("Novo");
+        novo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                novoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(novo);
+
+        open.setText("Carregar");
+        open.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openActionPerformed(evt);
+            }
+        });
+        jMenu1.add(open);
+
+        exit.setText("Sair");
+        exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitActionPerformed(evt);
+            }
+        });
+        jMenu1.add(exit);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(painelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(painelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private Caracteristica openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileFilter(new FileNameExtensionFilter("Arquivo Json", "json"));
+        chooser.setAcceptAllFileFilterUsed(false);
+        File file = null;
+        String caminho = "";
+        int retorno = chooser.showOpenDialog(open);
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            caminho = chooser.getSelectedFile().getAbsolutePath();
+
+            System.out.println(caminho);
+            try {
+                Caracteristica c = new GerenteCasos().carregar(caminho);
+                return c;
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(UseCase.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        }
+        return null;
+
+    }//GEN-LAST:event_openActionPerformed
+
+    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_exitActionPerformed
+
+    private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
+
+        Projeto obj = new Projeto();
+        UseCase.getPainel().add(obj);
+        obj.setVisible(true);
+
+
+    }//GEN-LAST:event_novoActionPerformed
+    
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(UseCase.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(UseCase.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(UseCase.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(UseCase.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                getInstance().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem exit;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JMenuItem novo;
+    private javax.swing.JMenuItem open;
+    private javax.swing.JPanel painelPrincipal;
+    // End of variables declaration//GEN-END:variables
 }
