@@ -199,4 +199,8 @@ public class UseCase extends javax.swing.JFrame {
     private javax.swing.JMenuItem open;
     private javax.swing.JPanel painelPrincipal;
     // End of variables declaration//GEN-END:variables
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 725a55092866a27a21538f98c77f5db0043b9ded
