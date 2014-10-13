@@ -1,4 +1,4 @@
-package br.com.wendel.funcionalidades;
+package br.com.wendel.domain;
 import java.util.ArrayList;
 
 public class CasoDeUso{
@@ -6,13 +6,19 @@ public class CasoDeUso{
 	protected String nome;
 	protected String descricao;
 	protected ArrayList<Fluxo> listaDeFluxo = new ArrayList<Fluxo>();
-		
-//	public CasoDeUso() {
-//		this.id = null;
-//		this.nome = null;
-//		this.descricao = null;
-//		this.listaDeFluxo = null;
-//	}
+	
+        public CasoDeUso(String id, String nome, String descricao) {
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+	}
+        
+	public CasoDeUso(String id, String nome, String descricao, Fluxo fluxo) {
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+		this.listaDeFluxo.add(fluxo);
+	}
 	
 	public String getId() {
 		return id;

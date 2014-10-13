@@ -1,6 +1,7 @@
-package br.com.wendel.funcionalidades;
+package br.com.wendel.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Fluxo {
 	
@@ -12,6 +13,14 @@ public class Fluxo {
 	private ArrayList<Passo> listaDePassos = new ArrayList<Passo>();
 	
 	
+        public Fluxo(String id,String nome,String descricao,String fromStep,String toStep){
+            this.id = id;
+            this.nome= nome;
+            this.descricao=descricao;
+            this.fromStep=fromStep;
+            this.toStep=toStep;
+        }
+        
 	public String getId() {
 		return id;
 	}
@@ -52,8 +61,8 @@ public class Fluxo {
 		this.toStep = toStep;
 	}
 
-	public int getListaDePassos() {
-		return listaDePassos.size();
+	public List<Passo> getListaDePassos() {
+                return this.listaDePassos;
 	}
 
 	public void setListaDePassos(Passo passo) {

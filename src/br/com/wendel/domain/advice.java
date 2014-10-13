@@ -1,6 +1,6 @@
-package br.com.wendel.funcionalidades;
+package br.com.wendel.domain;
 
-public class advice extends CasoDeUso {
+public class advice   {
 	
 	private String tipo;
 	private String pontocorte;

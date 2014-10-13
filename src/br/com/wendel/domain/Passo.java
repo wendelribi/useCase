@@ -1,4 +1,4 @@
-package br.com.wendel.funcionalidades;
+package br.com.wendel.domain;
 
 public class Passo {
 	private String id;
@@ -6,6 +6,13 @@ public class Passo {
 	private String condicao;
 	private String resposta;
 
+    public Passo(String id, String acao, String condicao, String resposta) {
+        this.id = id;
+        this.acao = acao;
+        this.condicao = condicao;
+        this.resposta = resposta;
+    }
+        
 	public String getId() {
 		return id;
 	}
