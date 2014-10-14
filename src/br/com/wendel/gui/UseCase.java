@@ -15,7 +15,9 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
@@ -28,6 +30,7 @@ public class UseCase extends javax.swing.JFrame {
      */
     public UseCase() {
         initComponents();
+        
     }
     private static UseCase p;
 
@@ -53,10 +56,11 @@ public class UseCase extends javax.swing.JFrame {
 
         jRadioButton1 = new javax.swing.JRadioButton();
         painelPrincipal = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         novo = new javax.swing.JMenuItem();
-        open = new javax.swing.JMenuItem();
+        Open = new javax.swing.JMenuItem();
         exit = new javax.swing.JMenuItem();
 
         jRadioButton1.setText("jRadioButton1");
@@ -67,11 +71,11 @@ public class UseCase extends javax.swing.JFrame {
         painelPrincipal.setLayout(painelPrincipalLayout);
         painelPrincipalLayout.setHorizontalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 614, Short.MAX_VALUE)
+            .addGap(0, 527, Short.MAX_VALUE)
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 431, Short.MAX_VALUE)
+            .addGap(0, 465, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Projeto");
@@ -84,13 +88,13 @@ public class UseCase extends javax.swing.JFrame {
         });
         jMenu1.add(novo);
 
-        open.setText("Carregar");
-        open.addActionListener(new java.awt.event.ActionListener() {
+        Open.setText("Carregar");
+        Open.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openActionPerformed(evt);
+                OpenActionPerformed(evt, caracteristica);
             }
         });
-        jMenu1.add(open);
+        jMenu1.add(Open);
 
         exit.setText("Sair");
         exit.addActionListener(new java.awt.event.ActionListener() {
@@ -108,38 +112,19 @@ public class UseCase extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(painelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(painelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private Caracteristica openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileFilter(new FileNameExtensionFilter("Arquivo Json", "json"));
-        chooser.setAcceptAllFileFilterUsed(false);
-        File file = null;
-        String caminho = "";
-        int retorno = chooser.showOpenDialog(open);
-        if (retorno == JFileChooser.APPROVE_OPTION) {
-            caminho = chooser.getSelectedFile().getAbsolutePath();
-
-            System.out.println(caminho);
-            try {
-                Caracteristica c = new GerenteCasos().carregar(caminho);
-                return c;
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(UseCase.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            }
-        }
-        return null;
-
-    }//GEN-LAST:event_openActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         this.dispose();
@@ -153,8 +138,61 @@ public class UseCase extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_novoActionPerformed
-    
 
+    private void OpenActionPerformed(java.awt.event.ActionEvent evt, Caracteristica caracteristica) {//GEN-FIRST:event_OpenActionPerformed
+        Caracteristica k;
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileFilter(new FileNameExtensionFilter("Arquivo Json", "json"));
+        chooser.setAcceptAllFileFilterUsed(false);
+        File file = null;
+        String caminho = "";
+        int retorno = chooser.showOpenDialog(Open);
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            caminho = chooser.getSelectedFile().getAbsolutePath();
+
+            System.out.println(caminho);
+            try {
+                caracteristica = new GerenteCasos().carregar(caminho);
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(UseCase.class.getName()).log(Level.SEVERE, null, ex);
+                
+            }
+        }
+        criaArvore(caracteristica);
+    }//GEN-LAST:event_OpenActionPerformed
+    private void criaArvore(Caracteristica caracteristica){
+        DefaultMutableTreeNode     root = new DefaultMutableTreeNode("Caracteristica");
+        DefaultMutableTreeNode     parent;
+        
+        root.add(new DefaultMutableTreeNode(caracteristica.getNome()));
+        root.add(new DefaultMutableTreeNode(caracteristica.getId()));
+        
+        parent = new DefaultMutableTreeNode("Caso de Uso");
+        
+        
+        root.add(parent);
+        parent.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(0).getNome()));
+        
+        
+        
+        
+        
+         
+        
+        jScrollPane2.setViewportView(new JTree(root));
+        repaint();
+    }
+
+    private void addNoFilho(String no){
+        DefaultMutableTreeNode filho = new DefaultMutableTreeNode(noPai);
+        noPai.add(filho);
+        tree = new JTree(noPai);
+        jScrollPane2.setViewportView(tree);
+        repaint();
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -189,14 +227,20 @@ public class UseCase extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    
+    private JTree tree;
+    private DefaultMutableTreeNode noPai;
+    private Caracteristica caracteristica;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Open;
     private javax.swing.JMenuItem exit;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenuItem novo;
-    private javax.swing.JMenuItem open;
     private javax.swing.JPanel painelPrincipal;
     // End of variables declaration//GEN-END:variables
 }
