@@ -174,64 +174,51 @@ public class UseCase extends javax.swing.JFrame {
     private Fluxo getListaFluxo(Caracteristica caracteristica, int indexCaso, int indexFluxo) {
         return caracteristica.getListaDeCasos().get(indexCaso).getFluxo().get(indexFluxo);
     }
-    
-    private DefaultMutableTreeNode getListaPasso(
-            Caracteristica caracteristica, int indexCaso, int indexFluxo, int indexPasso)
-    {
-        
-        return new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(0)
-                .getFluxo().get(0).getListaDePassos().get(0));
+
+    private DefaultMutableTreeNode getListaPasso(Caracteristica caracteristica, int indexCaso, int indexFluxo, int indexPasso) {
+
+        return new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(0).getFluxo().get(0).getListaDePassos().get(0));
         //return caracteristica.getListaDeCasos().get(0).getFluxo().get(0).getListaDePassos().get(indexPasso);
     }
-    
-    //    
 
+    //    
     private void criaArvore(Caracteristica caracteristica) {
         DefaultMutableTreeNode feature = new DefaultMutableTreeNode("Caracteristica-" + caracteristica.getNome());
-        DefaultMutableTreeNode useCase;
-        DefaultMutableTreeNode flow;
-        DefaultMutableTreeNode step;
-        
         
         feature.add(new DefaultMutableTreeNode(caracteristica.getNome()));
         feature.add(new DefaultMutableTreeNode(caracteristica.getId()));
 
-        useCase = new DefaultMutableTreeNode("Caso de Uso");
+        for (int c = 0; c < caracteristica.getListaDeCasos().size(); c++) {
+            DefaultMutableTreeNode useCase = new DefaultMutableTreeNode("Caso de Uso");
+            
+            feature.add(useCase);
+            useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, c).getNome()));
+            useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, c).getId()));
+            useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, c).getDescricao()));
+            for (int f = 0; f < caracteristica.getListaDeCasos().get(c).getFluxo().size(); f++) {
+                
+                DefaultMutableTreeNode flow = new DefaultMutableTreeNode("Fluxo");
+                useCase.add(flow);
 
-        feature.add(useCase);
-        useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, 0).getNome()));
-        useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, 0).getId()));
-        useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, 0).getDescricao()));
-        
-        flow = new DefaultMutableTreeNode("Fluxo");
-        useCase.add(flow);
-        
-        flow.add(new DefaultMutableTreeNode(getListaFluxo(caracteristica, 0, 0).getNome()));
-        flow.add(new DefaultMutableTreeNode(getListaFluxo(caracteristica, 0, 0).getId()));
-        flow.add(new DefaultMutableTreeNode(getListaFluxo(caracteristica, 0, 0).getFromStep()));
-        flow.add(new DefaultMutableTreeNode(getListaFluxo(caracteristica, 0, 0).getToStep()));
-        flow.add(new DefaultMutableTreeNode(getListaFluxo(caracteristica, 0, 0).getDescricao()));
-        
-        step = new DefaultMutableTreeNode("Passos");
-        
-        flow.add(step);
-        
-        step.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(0).getFluxo().get(0).getListaDePassos().get(0).getId()));
-        step.add(getListaPasso(caracteristica, 0, 0, 0));
-        step.add(getListaPasso(caracteristica, 0, 0, 0));
-        
-        
+                flow.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getId()));
+                flow.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getNome()));
+                flow.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getFromStep()));
+                flow.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getToStep()));
+                flow.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getDescricao()));
+                
+                for (int s = 0; s < caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getListaDePassos().size(); s++  ) {
+                    DefaultMutableTreeNode step = new DefaultMutableTreeNode("Passos");
+
+                    flow.add(step);
+                    step.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getListaDePassos().get(s).getId()));
+                    step.add(getListaPasso(caracteristica, c, f, s));
+                    step.add(getListaPasso(caracteristica, c, f, s));
+                }
+            }
+        }
+
         jScrollPane2.setViewportView(new JTree(feature));
         repaint();
-    }
-
-    private void addNoFilho(String no) {
-        DefaultMutableTreeNode filho = new DefaultMutableTreeNode(noPai);
-        noPai.add(filho);
-        tree = new JTree(noPai);
-        jScrollPane2.setViewportView(tree);
-        repaint();
-
     }
 
     /**
