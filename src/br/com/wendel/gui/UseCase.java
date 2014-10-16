@@ -6,7 +6,10 @@
 package br.com.wendel.gui;
 
 import br.com.wendel.domain.Caracteristica;
+import br.com.wendel.domain.CasoDeUso;
+import br.com.wendel.domain.Fluxo;
 import br.com.wendel.domain.GerenteCasos;
+import br.com.wendel.domain.Passo;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
@@ -30,7 +33,7 @@ public class UseCase extends javax.swing.JFrame {
      */
     public UseCase() {
         initComponents();
-        
+
     }
     private static UseCase p;
 
@@ -153,46 +156,84 @@ public class UseCase extends javax.swing.JFrame {
             System.out.println(caminho);
             try {
                 caracteristica = new GerenteCasos().carregar(caminho);
-                
+
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(UseCase.class.getName()).log(Level.SEVERE, null, ex);
-                
+
             }
         }
         criaArvore(caracteristica);
     }//GEN-LAST:event_OpenActionPerformed
-    private void criaArvore(Caracteristica caracteristica){
-        DefaultMutableTreeNode     root = new DefaultMutableTreeNode("Caracteristica");
-        DefaultMutableTreeNode     parent;
+    //Devo utilizar outra forma para acessar esses dados?
+
+    private CasoDeUso getListaCasoDeUso(Caracteristica caracteristica, int i) {
+        return caracteristica
+                .getListaDeCasos().get(i);
+    }
+
+    private Fluxo getListaFluxo(Caracteristica caracteristica, int indexCaso, int indexFluxo) {
+        return caracteristica.getListaDeCasos().get(indexCaso).getFluxo().get(indexFluxo);
+    }
+    
+    private DefaultMutableTreeNode getListaPasso(
+            Caracteristica caracteristica, int indexCaso, int indexFluxo, int indexPasso)
+    {
         
-        root.add(new DefaultMutableTreeNode(caracteristica.getNome()));
-        root.add(new DefaultMutableTreeNode(caracteristica.getId()));
+        return new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(0)
+                .getFluxo().get(0).getListaDePassos().get(0));
+        //return caracteristica.getListaDeCasos().get(0).getFluxo().get(0).getListaDePassos().get(indexPasso);
+    }
+    
+    //    
+
+    private void criaArvore(Caracteristica caracteristica) {
+        DefaultMutableTreeNode feature = new DefaultMutableTreeNode("Caracteristica-" + caracteristica.getNome());
+        DefaultMutableTreeNode useCase;
+        DefaultMutableTreeNode flow;
+        DefaultMutableTreeNode step;
         
-        parent = new DefaultMutableTreeNode("Caso de Uso");
+        
+        feature.add(new DefaultMutableTreeNode(caracteristica.getNome()));
+        feature.add(new DefaultMutableTreeNode(caracteristica.getId()));
+
+        useCase = new DefaultMutableTreeNode("Caso de Uso");
+
+        feature.add(useCase);
+        useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, 0).getNome()));
+        useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, 0).getId()));
+        useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, 0).getDescricao()));
+        
+        flow = new DefaultMutableTreeNode("Fluxo");
+        useCase.add(flow);
+        
+        flow.add(new DefaultMutableTreeNode(getListaFluxo(caracteristica, 0, 0).getNome()));
+        flow.add(new DefaultMutableTreeNode(getListaFluxo(caracteristica, 0, 0).getId()));
+        flow.add(new DefaultMutableTreeNode(getListaFluxo(caracteristica, 0, 0).getFromStep()));
+        flow.add(new DefaultMutableTreeNode(getListaFluxo(caracteristica, 0, 0).getToStep()));
+        flow.add(new DefaultMutableTreeNode(getListaFluxo(caracteristica, 0, 0).getDescricao()));
+        
+        step = new DefaultMutableTreeNode("Passos");
+        
+        flow.add(step);
+        
+        step.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(0).getFluxo().get(0).getListaDePassos().get(0).getId()));
+        step.add(getListaPasso(caracteristica, 0, 0, 0));
+        step.add(getListaPasso(caracteristica, 0, 0, 0));
         
         
-        root.add(parent);
-        parent.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(0).getNome()));
-        
-        
-        
-        
-        
-         
-        
-        jScrollPane2.setViewportView(new JTree(root));
+        jScrollPane2.setViewportView(new JTree(feature));
         repaint();
     }
 
-    private void addNoFilho(String no){
+    private void addNoFilho(String no) {
         DefaultMutableTreeNode filho = new DefaultMutableTreeNode(noPai);
         noPai.add(filho);
         tree = new JTree(noPai);
         jScrollPane2.setViewportView(tree);
         repaint();
-        
+
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -227,12 +268,11 @@ public class UseCase extends javax.swing.JFrame {
             }
         });
     }
-    
-    
+
     private JTree tree;
     private DefaultMutableTreeNode noPai;
     private Caracteristica caracteristica;
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Open;
     private javax.swing.JMenuItem exit;

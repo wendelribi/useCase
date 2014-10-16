@@ -143,7 +143,7 @@ public class Projeto extends javax.swing.JInternalFrame {
            // }
         }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
