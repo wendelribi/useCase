@@ -33,7 +33,7 @@ public class GerenteCasos implements IECaso {
     }
 
     public CasoDeUso pesquisarCaso(String id, Caracteristica caracteristica) {
-        for (int i = 0; i <= caracteristica.listaDeCasos.size(); i++) {
+        for (int i = 0; i < caracteristica.listaDeCasos.size(); i++) {
             if (id.equals(caracteristica.listaDeCasos.get(i).getId())) {
                 return caracteristica.listaDeCasos.get(i);
             }
