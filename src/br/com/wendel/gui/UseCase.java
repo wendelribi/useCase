@@ -11,12 +11,10 @@ import br.com.wendel.domain.Fluxo;
 import br.com.wendel.domain.GerenteCasos;
 import br.com.wendel.domain.Passo;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -26,6 +24,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  *
  * @author wendel
  */
+
 public class UseCase extends javax.swing.JFrame {
 
     /**
@@ -37,6 +36,11 @@ public class UseCase extends javax.swing.JFrame {
     }
     private static UseCase p;
 
+    
+    /**
+     * 
+     * @return Retorna uma instancia da Clasee UseCase
+     */
     public static UseCase getInstance() {
         if (p == null) {
             p = new UseCase();
@@ -136,9 +140,19 @@ public class UseCase extends javax.swing.JFrame {
     private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
 
         Projeto obj = new Projeto();
+        JPanel t = new TestesPainel();
+        
+        
         UseCase.getPainel().add(obj);
+        UseCase.getPainel().add(t);
         obj.setVisible(true);
-
+     
+        
+        
+        
+        t.validate();
+        t.setVisible(true);
+        getPainel().validate();
 
     }//GEN-LAST:event_novoActionPerformed
 
@@ -164,61 +178,48 @@ public class UseCase extends javax.swing.JFrame {
         }
         criaArvore(caracteristica);
     }//GEN-LAST:event_OpenActionPerformed
-    //Devo utilizar outra forma para acessar esses dados?
 
-    private CasoDeUso getListaCasoDeUso(Caracteristica caracteristica, int i) {
-        return caracteristica
-                .getListaDeCasos().get(i);
-    }
-
-    private Fluxo getListaFluxo(Caracteristica caracteristica, int indexCaso, int indexFluxo) {
-        return caracteristica.getListaDeCasos().get(indexCaso).getFluxo().get(indexFluxo);
-    }
-
-    private DefaultMutableTreeNode getListaPasso(Caracteristica caracteristica, int indexCaso, int indexFluxo, int indexPasso) {
-
-        return new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(0).getFluxo().get(0).getListaDePassos().get(0));
-        //return caracteristica.getListaDeCasos().get(0).getFluxo().get(0).getListaDePassos().get(indexPasso);
-    }
-
-    //    
     private void criaArvore(Caracteristica caracteristica) {
-        DefaultMutableTreeNode feature = new DefaultMutableTreeNode("Caracteristica-" + caracteristica.getNome());
-        
-        feature.add(new DefaultMutableTreeNode(caracteristica.getNome()));
-        feature.add(new DefaultMutableTreeNode(caracteristica.getId()));
+        try {
+            DefaultMutableTreeNode feature = new DefaultMutableTreeNode("Caracteristica-" + caracteristica.getNome());
 
-        for (int c = 0; c < caracteristica.getListaDeCasos().size(); c++) {
-            DefaultMutableTreeNode useCase = new DefaultMutableTreeNode("Caso de Uso");
-            
-            feature.add(useCase);
-            useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, c).getNome()));
-            useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, c).getId()));
-            useCase.add(new DefaultMutableTreeNode(getListaCasoDeUso(caracteristica, c).getDescricao()));
-            for (int f = 0; f < caracteristica.getListaDeCasos().get(c).getFluxo().size(); f++) {
-                
-                DefaultMutableTreeNode flow = new DefaultMutableTreeNode("Fluxo");
-                useCase.add(flow);
+            feature.add(new DefaultMutableTreeNode(caracteristica.getNome()));
+            feature.add(new DefaultMutableTreeNode(caracteristica.getId()));
 
-                flow.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getId()));
-                flow.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getNome()));
-                flow.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getFromStep()));
-                flow.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getToStep()));
-                flow.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getDescricao()));
-                
-                for (int s = 0; s < caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getListaDePassos().size(); s++  ) {
-                    DefaultMutableTreeNode step = new DefaultMutableTreeNode("Passos");
+            for (CasoDeUso c : caracteristica.getListaDeCasos()) {
+                DefaultMutableTreeNode useCase = new DefaultMutableTreeNode("Caso de Uso");
 
-                    flow.add(step);
-                    step.add(new DefaultMutableTreeNode(caracteristica.getListaDeCasos().get(c).getFluxo().get(f).getListaDePassos().get(s).getId()));
-                    step.add(getListaPasso(caracteristica, c, f, s));
-                    step.add(getListaPasso(caracteristica, c, f, s));
+                feature.add(useCase);
+                useCase.add(new DefaultMutableTreeNode(c.getNome()));
+                useCase.add(new DefaultMutableTreeNode(c.getId()));
+                useCase.add(new DefaultMutableTreeNode(c.getDescricao()));
+
+                for (Fluxo f : c.getFluxo()) {
+                    DefaultMutableTreeNode flow = new DefaultMutableTreeNode("Fluxo");
+                    useCase.add(flow);
+
+                    flow.add(new DefaultMutableTreeNode(f.getId()));
+                    flow.add(new DefaultMutableTreeNode(f.getNome()));
+                    flow.add(new DefaultMutableTreeNode(f.getFromStep()));
+                    flow.add(new DefaultMutableTreeNode(f.getToStep()));
+                    flow.add(new DefaultMutableTreeNode(f.getDescricao()));
+
+                    for (Passo p : f.getListaDePassos()) {
+                        DefaultMutableTreeNode step = new DefaultMutableTreeNode("Passos");
+                        flow.add(step);
+                        step.add(new DefaultMutableTreeNode(p.getId()));
+                        step.add(new DefaultMutableTreeNode(p.getCondicao()));
+                        step.add(new DefaultMutableTreeNode(p.getAcao()));
+                        step.add(new DefaultMutableTreeNode(p.getResposta()));
+                    }
                 }
             }
+            jScrollPane2.setViewportView(new JTree(feature));
+            repaint();
         }
-
-        jScrollPane2.setViewportView(new JTree(feature));
-        repaint();
+        catch(Exception e){
+            System.err.println("Cancelado");
+        }
     }
 
     /**
