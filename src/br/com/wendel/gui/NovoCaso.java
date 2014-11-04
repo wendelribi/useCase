@@ -5,6 +5,8 @@
  */
 package br.com.wendel.gui;
 
+import br.com.wendel.domain.CasoDeUso;
+
 /**
  *
  * @author wendel
@@ -37,7 +39,7 @@ public class NovoCaso extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
 
-        setTitle("Novo Projeto");
+        setTitle("Novo Caso de Uso");
 
         jLabel1.setText("ID");
 
@@ -133,6 +135,10 @@ public class NovoCaso extends javax.swing.JInternalFrame {
         this.setVisible(false);
         NovoFluxo novo = new NovoFluxo();
         UseCase.getPainel().add(novo);
+        CasoDeUso c = new CasoDeUso(jTextField1.getText(), jTextField2.getText(), jTextField3.getText());
+        System.out.println(Projeto.caracteristica.getNome());
+        Projeto.caracteristica.setListaDeCasos(c);
+        UseCase.getInstance().criaArvore(Projeto.caracteristica);
         novo.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 

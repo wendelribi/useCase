@@ -10,17 +10,12 @@ import br.com.wendel.domain.CasoDeUso;
 import br.com.wendel.domain.Fluxo;
 import br.com.wendel.domain.GerenteCasos;
 import br.com.wendel.domain.Passo;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTree;
@@ -74,7 +69,6 @@ public class UseCase extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         novo = new javax.swing.JMenuItem();
-        salvarCarac = new javax.swing.JMenuItem();
         Open = new javax.swing.JMenuItem();
         exit = new javax.swing.JMenuItem();
 
@@ -103,24 +97,10 @@ public class UseCase extends javax.swing.JFrame {
         });
         jMenu1.add(novo);
 
-        salvarCarac.setText("Salvar");
-        salvarCarac.addActionListener(new ActionListener()  {
-			public void actionPerformed(ActionEvent evt) {
-				try {
-					salvarCaracActionPerformed(evt);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-        
-        jMenu1.add(salvarCarac);
-
         Open.setText("Carregar");
         Open.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                OpenActionPerformed(evt, caracteristica);
+                OpenActionPerformed(evt);
             }
         });
         jMenu1.add(Open);
@@ -173,35 +153,14 @@ public class UseCase extends javax.swing.JFrame {
         getPainel().validate();
 
     }//GEN-LAST:event_novoActionPerformed
-    
-    private void salvarCaracActionPerformed(ActionEvent evt) throws IOException{
-    	JFileChooser chooser = new JFileChooser();
-        //chooser.setFileFilter(new FileNameExtensionFilter("Arquivo Json", "json"));
-        //chooser.setAcceptAllFileFilterUsed(false);
-        File file = null;
-        String caminho = "";
-        int retorno = chooser.showSaveDialog(null);
-        if (retorno == JFileChooser.SAVE_DIALOG) {
-            caminho = chooser.getSelectedFile().getAbsolutePath();
 
-            System.out.println(caminho);
-            try {
-            	new GerenteCasos().salvar(caracteristica, caminho);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(UseCase.class.getName()).log(Level.SEVERE, null, ex);
-
-            }
-            
-        }
-    }
-    
     private void OpenActionPerformed(java.awt.event.ActionEvent evt, Caracteristica caracteristica) {//GEN-FIRST:event_OpenActionPerformed
         JFileChooser chooser = new JFileChooser();
         chooser.setFileFilter(new FileNameExtensionFilter("Arquivo Json", "json"));
         chooser.setAcceptAllFileFilterUsed(false);
         File file = null;
         String caminho = "";
-        int retorno = chooser.showSaveDialog(this);
+        int retorno = chooser.showOpenDialog(Open);
         if (retorno == JFileChooser.APPROVE_OPTION) {
             caminho = chooser.getSelectedFile().getAbsolutePath();
 
@@ -336,6 +295,5 @@ public class UseCase extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenuItem novo;
     private javax.swing.JPanel painelPrincipal;
-    private javax.swing.JMenuItem salvarCarac;
     // End of variables declaration//GEN-END:variables
 }

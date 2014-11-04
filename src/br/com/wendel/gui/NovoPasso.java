@@ -5,18 +5,16 @@
  */
 package br.com.wendel.gui;
 
-import br.com.wendel.domain.Fluxo;
-
 /**
  *
  * @author wendel
  */
-public class NovoFluxo extends javax.swing.JInternalFrame {
+public class NovoPasso extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form NovoFluxo
      */
-    public NovoFluxo() {
+    public NovoPasso() {
         initComponents();
     }
 
@@ -36,12 +34,10 @@ public class NovoFluxo extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
 
         setTitle("Novo Fluxo");
 
@@ -63,13 +59,11 @@ public class NovoFluxo extends javax.swing.JInternalFrame {
 
         Id.setText("ID");
 
-        jLabel2.setText("Nome");
+        jLabel2.setText("Ação");
 
-        jLabel3.setText("Descricao");
+        jLabel3.setText("Condição");
 
-        jLabel1.setText("fromStep");
-
-        jLabel4.setText("toStep");
+        jLabel1.setText("Resposta");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,7 +74,6 @@ public class NovoFluxo extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
@@ -98,9 +91,8 @@ public class NovoFluxo extends javax.swing.JInternalFrame {
                         .addGap(10, 10, 10)
                         .addComponent(jButton3)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
-                    .addComponent(jTextField5))
-                .addGap(0, 51, Short.MAX_VALUE))
+                        .addComponent(jButton2)))
+                .addGap(0, 55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,11 +113,7 @@ public class NovoFluxo extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton1)
@@ -137,24 +125,9 @@ public class NovoFluxo extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.setVisible(false);
-        NovoPasso novoP =  new NovoPasso();
-        UseCase.getPainel().add(novoP);
-        
-              
-        novoP.setVisible(true);
-        
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-    public Fluxo setFluxo(){
-         Fluxo f = new Fluxo(jTextField1.getText(),
-                            jTextField2.getText(), 
-                            jTextField3.getText(), 
-                            jTextField4.getText(),
-                            jTextField5.getText());
-         return f;
-    }
-    
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -168,11 +141,9 @@ public class NovoFluxo extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }

@@ -50,6 +50,12 @@ public class Projeto extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Nome");
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         jButton1.setText("Novo Caso de uso");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,14 +126,24 @@ public class Projeto extends javax.swing.JInternalFrame {
         this.setVisible(false);
         NovoCaso novo = new NovoCaso();
         UseCase.getPainel().add(novo);
+        caracteristica.setId(jTextField1.getText());
+        caracteristica.setNome(jTextField2.getText());
+        UseCase.getInstance().criaArvore(caracteristica);
         novo.setVisible(true);
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        caracteristica.setId(evt.getActionCommand());
+        System.out.println(evt.getActionCommand());
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         //new GerenteCasos().salvar(caracteristica, title);
         JFileChooser chooser = new JFileChooser();
         File file = null;
@@ -145,7 +161,7 @@ public class Projeto extends javax.swing.JInternalFrame {
 
     }
 
-
+    static Caracteristica caracteristica = new Caracteristica();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
