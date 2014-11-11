@@ -140,7 +140,7 @@ public class NovoFluxo extends javax.swing.JInternalFrame {
         this.setVisible(false);
         NovoPasso novoP =  new NovoPasso();
         UseCase.getPainel().add(novoP);
-        
+        Fluxo f = setFluxo();
               
         novoP.setVisible(true);
         
