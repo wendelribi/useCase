@@ -5,6 +5,7 @@
  */
 package br.com.wendel.gui;
 
+import br.com.wendel.domain.Caracteristica;
 import br.com.wendel.domain.CasoDeUso;
 
 /**
@@ -12,12 +13,14 @@ import br.com.wendel.domain.CasoDeUso;
  * @author wendel
  */
 public class NovoCaso extends javax.swing.JInternalFrame {
+    
 
     /**
      * Creates new form Projeto
      */
-    public NovoCaso() {
+    public NovoCaso(Caracteristica caracteristica) {
         initComponents();
+        this.caracteristica = caracteristica;
     }
 
     /**
@@ -136,13 +139,13 @@ public class NovoCaso extends javax.swing.JInternalFrame {
         NovoFluxo novo = new NovoFluxo();
         UseCase.getPainel().add(novo);
         CasoDeUso c = new CasoDeUso(jTextField1.getText(), jTextField2.getText(), jTextField3.getText());
-        System.out.println(Projeto.caracteristica.getNome());
-        Projeto.caracteristica.setListaDeCasos(c);
-        UseCase.getInstance().criarArvore(Projeto.caracteristica);
+        System.out.println(caracteristica.getNome());
+        caracteristica.setListaDeCasos(c);
+        UseCase.getInstance().criarArvore(caracteristica);
         novo.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-
+    private Caracteristica caracteristica;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

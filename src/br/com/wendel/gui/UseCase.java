@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -38,7 +39,7 @@ public class UseCase extends javax.swing.JFrame {
      */
     public UseCase() {
         initComponents();
-
+        carregarAction();
     }
     private static UseCase p;
 
@@ -57,7 +58,19 @@ public class UseCase extends javax.swing.JFrame {
     public static JPanel getPainel() {
         return getInstance().painelPrincipal;
     }
-
+    
+    public void verificaExistenciaCaracteristica(java.awt.event.ActionEvent evt){
+        if(!(caracteristica == null)){
+            int op =JOptionPane.showConfirmDialog(getPainel(), "Gostaria de salvar o Projeto antes de continuar?");
+            if(op==0){
+                try {
+                    salvarCaracActionPerformed(evt);
+                } catch (IOException ex) {
+                    Logger.getLogger(UseCase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -102,12 +115,7 @@ public class UseCase extends javax.swing.JFrame {
         salvarCarac.setText(bundle.getString("SALVAR")); // NOI18N
         jMenu1.add(salvarCarac);
 
-        carregar.setText(bundle.getString("CARREGAR")); // NOI18N
-        carregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                carregarActionPerformed(evt);
-            }
-        });
+        carregar.setText("Carregar");
         jMenu1.add(carregar);
 
         exit.setText(bundle.getString("SAIR")); // NOI18N
@@ -141,14 +149,17 @@ public class UseCase extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        verificaExistenciaCaracteristica(evt);
         this.dispose();
     }//GEN-LAST:event_exitActionPerformed
 
     private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
-
-        Projeto obj = new Projeto();
+        verificaExistenciaCaracteristica(evt);
+        caracteristica=new Caracteristica();
+        Projeto obj = new Projeto(caracteristica);
         UseCase.getPainel().add(obj);
         obj.setVisible(true);
+        
         getPainel().validate();
 
     }//GEN-LAST:event_novoActionPerformed
@@ -170,7 +181,7 @@ public class UseCase extends javax.swing.JFrame {
     	}
     }
     
-    private void carregarActionPerformed(java.awt.event.ActionEvent evt, Caracteristica caracteristica) {//GEN-FIRST:event_carregarActionPerformed
+    private void carregarActionPerformed(java.awt.event.ActionEvent evt, Caracteristica caracteristica) {                                         
         JFileChooser chooser = new JFileChooser();
         chooser.setFileFilter(new FileNameExtensionFilter("Arquivo Json", "json"));
         chooser.setAcceptAllFileFilterUsed(false);
@@ -188,17 +199,23 @@ public class UseCase extends javax.swing.JFrame {
             }
         }
         criarArvore(caracteristica);
-    }//GEN-LAST:event_carregarActionPerformed
-
+    }
+    private void carregarAction(){
+        carregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carregarActionPerformed(evt, caracteristica);
+            }
+        });
+    }
     public void criarArvore(Caracteristica caracteristica){
         try {
-            DefaultMutableTreeNode feature = new DefaultMutableTreeNode("Caracteristica-" + caracteristica.getNome());
+            DefaultMutableTreeNode feature = new DefaultMutableTreeNode(caracteristica.getNome());
 
             feature.add(new DefaultMutableTreeNode(caracteristica.getNome()));
             feature.add(new DefaultMutableTreeNode(caracteristica.getId()));
 
             for (CasoDeUso c : caracteristica.getListaDeCasos()) {
-                DefaultMutableTreeNode useCase = new DefaultMutableTreeNode("Caso de Uso");
+                DefaultMutableTreeNode useCase = new DefaultMutableTreeNode(c.getNome());
 
                 feature.add(useCase);
                 useCase.add(new DefaultMutableTreeNode(c.getNome()));
@@ -206,9 +223,8 @@ public class UseCase extends javax.swing.JFrame {
                 useCase.add(new DefaultMutableTreeNode(c.getDescricao()));
 
                 for (Fluxo f : c.getFluxo()) {
-                    DefaultMutableTreeNode flow = new DefaultMutableTreeNode("Fluxo");
+                    DefaultMutableTreeNode flow = new DefaultMutableTreeNode(f.getNome());
                     useCase.add(flow);
-
                     flow.add(new DefaultMutableTreeNode(f.getId()));
                     flow.add(new DefaultMutableTreeNode(f.getNome()));
                     flow.add(new DefaultMutableTreeNode(f.getFromStep()));
@@ -216,7 +232,7 @@ public class UseCase extends javax.swing.JFrame {
                     flow.add(new DefaultMutableTreeNode(f.getDescricao()));
 
                     for (Passo p : f.getListaDePassos()) {
-                        DefaultMutableTreeNode step = new DefaultMutableTreeNode("Passos");
+                        DefaultMutableTreeNode step = new DefaultMutableTreeNode(p.getId());
                         flow.add(step);
                         step.add(new DefaultMutableTreeNode(p.getId()));
                         step.add(new DefaultMutableTreeNode(p.getCondicao()));
@@ -227,13 +243,13 @@ public class UseCase extends javax.swing.JFrame {
             }
             
             final JTree t = new JTree(feature);
-            
             jScrollPane2.setViewportView(t);
             t.addMouseListener(new MouseListener()  {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     System.out.println(e.getButton());
+                    System.out.println(t.getAnchorSelectionPath());
                 }
 
                 @Override
@@ -257,9 +273,7 @@ public class UseCase extends javax.swing.JFrame {
             repaint();
         }
         catch(Exception e){
-            if(e.equals(E)){
-                
-            }
+
         }
 
     }

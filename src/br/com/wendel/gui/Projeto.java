@@ -6,12 +6,7 @@
 package br.com.wendel.gui;
 
 import br.com.wendel.domain.Caracteristica;
-import br.com.wendel.domain.GerenteCasos;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -22,9 +17,11 @@ public class Projeto extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Projeto
+     * @param caracteristica
      */
-    public Projeto() {
+    public Projeto(Caracteristica caracteristica) {
         initComponents();
+        this.caracteristica=caracteristica;
     }
     
     /**
@@ -124,14 +121,12 @@ public class Projeto extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.setVisible(false);
-        NovoCaso novo = new NovoCaso();
+        NovoCaso novo = new NovoCaso(caracteristica);
         UseCase.getPainel().add(novo);
         caracteristica.setId(jTextField1.getText());
         caracteristica.setNome(jTextField2.getText());
-        UseCase.getInstance().criaArvore(caracteristica);
+        UseCase.getInstance().criarArvore(caracteristica);
         novo.setVisible(true);
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -161,7 +156,7 @@ public class Projeto extends javax.swing.JInternalFrame {
 
     }
 
-    static Caracteristica caracteristica = new Caracteristica();
+    private Caracteristica caracteristica;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
