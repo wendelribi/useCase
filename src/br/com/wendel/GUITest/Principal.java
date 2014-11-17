@@ -27,23 +27,42 @@ public class Principal extends javax.swing.JFrame {
     private void start(){
         initComponents();
         acaoSalvar();
-        acaoCarregar();   
+        acaoCarregar();
+        acaoNovo();
     }
     
     public static Principal getInstance(){
         if(p == null){
-            return p = new Principal();
+            p = new Principal();
         }
         return p;
     }
     
+    public void janelaCaso(){
+        NovoProjeto np = new NovoProjeto(caracteristica);
+        Principal.getPainel().add(np);
+        np.setVisible(true);
+        getPainel().validate();
+    }
+
     public static JPanel getPainel(){
         return getInstance().jPanel1;
     }
     
+    public void acaoNovo(){
+        itemNovo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                NovoProjeto np = new NovoProjeto(caracteristica);
+                Principal.getPainel().add(np);
+                np.setVisible(true);
+                getPainel().validate();
+            }
+        });
+    }
+    
     public void acaoCarregar(){
         itemCarregar.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 caracteristica = MenuBarra.menuCarregar();
@@ -58,7 +77,6 @@ public class Principal extends javax.swing.JFrame {
     
     public void acaoSalvar(){
         itemSalvar.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 MenuBarra.menuSalvar(caracteristica);
@@ -78,6 +96,7 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
+        jSeparator1 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemNovo = new javax.swing.JMenuItem();
@@ -87,7 +106,18 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setLayout(new java.awt.CardLayout());
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 570, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 445, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(jSeparator1);
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("MessagesBundle_pt_BR"); // NOI18N
         jMenu1.setText(bundle.getString("PROJETO")); // NOI18N
@@ -120,7 +150,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,5 +209,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }
